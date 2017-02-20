@@ -10,21 +10,21 @@ namespace OdeToFood.Controllers
     public class ReviewsController : Controller
     {
 
-        [ChildActionOnly]
-        public ActionResult BestReview()
-        {
-            var bestReview = _reviews.OrderByDescending(r => r.Rating).First();
+        //[ChildActionOnly]
+        //public ActionResult BestReview()
+        //{
+        //    var bestReview = _reviews.OrderByDescending(r => r.Rating).First();
 
-            return PartialView("_Review", bestReview);
-        }
+        //    return PartialView("_Review", bestReview);
+        //}
 
-        // GET: Reviews
-        public ActionResult Index()
-        {
-            var model = _reviews.OrderBy(r => r.Country).ToList();
+        //// GET: Reviews
+        //public ActionResult Index()
+        //{
+        //    var model = _reviews.OrderBy(r => r.Country).ToList();
 
-            return View(model);
-        }
+        //    return View(model);
+        //}
 
         // GET: Reviews/Details/5
         public ActionResult Details(int id)
@@ -98,33 +98,33 @@ namespace OdeToFood.Controllers
             }
         }
 
-        static List<RestaurantReview> _reviews = new List<RestaurantReview>
-        {
-            new RestaurantReview {
-                Id = 1,
-                Name = "Cinnamon Club",
-                City="London",
-                Country="UK",
-                Rating = 10,
-            },
-            new RestaurantReview
-            {
-                Id = 2,
-                Name = "Marrakesh",
-                City = "D.C",
-                Country = "USA",
-                Rating = 10
+        //static List<RestaurantReview> _reviews = new List<RestaurantReview>
+        //{
+        //    new RestaurantReview {
+        //        Id = 1,
+        //        Name = "Cinnamon Club",
+        //        City="London",
+        //        Country="UK",
+        //        Rating = 10,
+        //    },
+        //    new RestaurantReview
+        //    {
+        //        Id = 2,
+        //        Name = "Marrakesh",
+        //        City = "D.C",
+        //        Country = "USA",
+        //        Rating = 10
 
-            },
-            new RestaurantReview
-            {
-                Id = 3,
-                Name = "The House of Elliot",
-                City = "Ghent",
-                Country = "Belgium",
-                Rating = 10
-            }
-        };
+        //    },
+        //    new RestaurantReview
+        //    {
+        //        Id = 3,
+        //        Name = "The House of Elliot",
+        //        City = "Ghent",
+        //        Country = "Belgium",
+        //        Rating = 10
+        //    }
+        //};
 
     }
 }
