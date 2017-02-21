@@ -9,122 +9,74 @@ namespace OdeToFood.Controllers
 {
     public class ReviewsController : Controller
     {
+        OdeToFoodContext _context = new OdeToFoodContext();
 
-        //[ChildActionOnly]
-        //public ActionResult BestReview()
-        //{
-        //    var bestReview = _reviews.OrderByDescending(r => r.Rating).First();
+        // GET: Reviews
+        public ActionResult Index([Bind(Prefix="id")]int restaurantId)
+        {
+            var restaurant = _context.Restaurants.Find(restaurantId);
 
-        //    return PartialView("_Review", bestReview);
-        //}
+            if(restaurant == null)
+            {
+                return HttpNotFound();
+            }
 
-        //// GET: Reviews
-        //public ActionResult Index()
-        //{
-        //    var model = _reviews.OrderBy(r => r.Country).ToList();
+            return View(restaurant);
+        }
 
-        //    return View(model);
-        //}
-
-        // GET: Reviews/Details/5
-        public ActionResult Details(int id)
+        [HttpGet]
+        public ActionResult Create(int restaurantId)
         {
             return View();
         }
 
-        // GET: Reviews/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Reviews/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(RestaurantReview review)
         {
-            try
+            if(ModelState.IsValid)
             {
-                // TODO: Add insert logic here
+                _context.Reviews.Add(review);
+                _context.SaveChanges();
+                return RedirectToAction("Index", new {restaurantId = review.RestaurantId });
+            }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return View(review);
         }
 
-        // GET: Reviews/Edit/5
+        [HttpGet]
         public ActionResult Edit(int id)
         {
-            return View();
+            var model = _context.Reviews.Find(id);
+            
+            if(model == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(model);
         }
 
-        // POST: Reviews/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(RestaurantReview review)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
+                _context.Entry(review).State = System.Data.Entity.EntityState.Modified;
+                _context.SaveChanges();
+                return RedirectToAction("Index", new { id = review.RestaurantId });
+            }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return View(review);
         }
 
-        // GET: Reviews/Delete/5
-        public ActionResult Delete(int id)
+        protected override void Dispose(bool disposing)
         {
-            return View();
-        }
-
-        // POST: Reviews/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
+            if(_context != null)
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                _context.Dispose();
             }
-            catch
-            {
-                return View();
-            }
+            base.Dispose(disposing);
         }
-
-        //static List<RestaurantReview> _reviews = new List<RestaurantReview>
-        //{
-        //    new RestaurantReview {
-        //        Id = 1,
-        //        Name = "Cinnamon Club",
-        //        City="London",
-        //        Country="UK",
-        //        Rating = 10,
-        //    },
-        //    new RestaurantReview
-        //    {
-        //        Id = 2,
-        //        Name = "Marrakesh",
-        //        City = "D.C",
-        //        Country = "USA",
-        //        Rating = 10
-
-        //    },
-        //    new RestaurantReview
-        //    {
-        //        Id = 3,
-        //        Name = "The House of Elliot",
-        //        City = "Ghent",
-        //        Country = "Belgium",
-        //        Rating = 10
-        //    }
-        //};
 
     }
 }
