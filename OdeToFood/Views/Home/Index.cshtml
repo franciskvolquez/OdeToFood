@@ -1,21 +1,18 @@
-﻿@model IEnumerable<OdeToFood.Models.RestaurantListVM>
+﻿
+@model IPagedList<OdeToFood.Models.RestaurantListVM>
 
 @{
     ViewBag.Title = "Home Page";
 }
 
-@using (Html.BeginForm("Index","Home", FormMethod.Get))
-{
-    <input type="search" name="searchTerm"/>
-    <input type="submit" value="Search By Name" />
-}
 
-@foreach (var item in Model)
-{
-    <div>
-        <h4>@item.Name</h4>
-        <div>@item.City, @item.Country</div>
-        <div>Reviews: @item.CountOfReviews</div>
-        <br />
-    </div>
-}
+
+<form method="get" url="@Url.Action("Index")" 
+      data-otf-ajax="true" data-otf-target="#restaurantList">
+
+    <input type="search" name="searchTerm"   data-otf-autocomplete="@Url.Action("Autocomplete")"/>
+    <input type="submit" value="Search By Name" />
+
+</form>
+
+@Html.Partial("_Restaurants",Model)
